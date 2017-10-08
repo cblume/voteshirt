@@ -18,6 +18,20 @@ class App extends React.Component {
         votingState: 'READY', // IN_PROGRESS, NEW_SEARCH, ENDED
     };
 
+
+    /*
+        When fetchig new designs from the server, there are two cases to differntiate:
+            1) `keyword === this.state.keyword`
+                In this case the app is fetching a *new* batch of `this.props.limit` designs
+                matching `keyword`, using an `offset` so we actually get new ones. 
+                Already available statistics (containing the up- and down-vote counts for each keyword)
+                are copied over.  
+            2) `keyword !== this.state.keyword`
+                The fetching process is similiar to the first case, with the distinction that the `offset`
+                is being resetted to 0. This makes sure we get the first batch of designs. Furthermore,
+                a new statistics object is being initialized and concatinated to the already exisiting (or empty)
+                statistics array.
+    */
     searchForDesigns = (keyword) => {
         let offset;
         let newKeywordStatistics;
@@ -57,6 +71,12 @@ class App extends React.Component {
         }
     };
 
+
+    /*
+        The returned JSON response coming from the server is being transformed to better fit the needs of the application.
+        Only the important properties (`id`, `name` and `resources.href` as `src`) are carried over. Beside that a `rating` 
+        property is introduced to keep track of each design's rating.
+    */
     transformJson = (json) => {
         return json.designs.map((el) => (
             {
@@ -134,6 +154,22 @@ class App extends React.Component {
         this.handleVote(index, keyword, 'LIKE');
     };
 
+
+    /*
+        The application is keeping track of a `votingState` which encompasses four distinct states:
+            1) `READY`
+            2) `IN_PROGRESS`
+            3) `NEW_SEARCH`
+            4) `ENDED`
+        
+        These states are used to determine which component to render, starting with `READY` as the default state.
+        If a fetch request was successful, the `votingState` changes to `IN_PROGESS` rendering the voting interface.
+        If the user decides to search for a new keyword (without ending the voting process) `votingState` will be 
+        changed to `NEW_SEARCH`. Not only does this render the search bar but also a button for the user to still 
+        end the voting process. If a new keyword is being submitted, the `votingState` will change back to `IN_PROGRESS`.
+        If the user decides to finally end the voting process, `votingState` will be set to `ENDED` which will render
+        the voting summary.
+    */
     render() {
         switch (this.state.votingState) {
             case 'NEW_SEARCH': {
