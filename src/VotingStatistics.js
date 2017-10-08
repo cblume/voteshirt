@@ -10,7 +10,7 @@ const VotingStatistics = (props) => {
 
     /*
 		If there are no up- or down-votes no chart displaying corresponding data should be rendered.
-		Unfortunately, if no data is available there will still be a heading for the invisible chart.
+		Unfortunately, if no data is available there would still be a heading for the invisible chart.
 		That's what this workaround is about.
     */
     if (props.totalUpVotes > 0) {

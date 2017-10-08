@@ -20,15 +20,15 @@ class App extends React.Component {
 
 
     /*
-        When fetchig new designs from the server, there are two cases to differntiate:
+        When fetchig new designs from the server, there are two cases to differentiate:
             1) `keyword === this.state.keyword`
                 In this case the app is fetching a *new* batch of `this.props.limit` designs
                 matching `keyword`, using an `offset` so we actually get new ones. 
                 Already available statistics (containing the up- and down-vote counts for each keyword)
                 are copied over.  
             2) `keyword !== this.state.keyword`
-                The fetching process is similiar to the first case, with the distinction that the `offset`
-                is being resetted to 0. This makes sure we get the first batch of designs. Furthermore,
+                The fetching process is similar to the first case, with the distinction that the `offset`
+                is being reset to 0. This makes sure we get the first batch of designs. Furthermore,
                 a new statistics object is being initialized and concatinated to the already exisiting (or empty)
                 statistics array.
     */
@@ -76,7 +76,7 @@ class App extends React.Component {
 
     /*
         The returned JSON response coming from the server is being transformed to better fit the needs of the application.
-        Only the important properties (`id`, `name` and `resources.href` as `src`) are carried over. Beside that a `rating` 
+        Only the important properties (`id`, `name` and `resources.href` as `src`) are carried over. Besides that a `rating` 
         property is introduced to keep track of each design's rating.
     */
     transformJson = (json) => {
