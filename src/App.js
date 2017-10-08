@@ -49,13 +49,15 @@ class App extends React.Component {
         .then(response => (response.json()))
         .then(this.transformJson)
         .then(newDesigns => {
-            this.setState({
-                keyword,
-                offset: offset + this.props.limit,
-                designs: this.state.designs.concat(newDesigns),
-                votingState: 'IN_PROGRESS',
-                statistics: newKeywordStatistics,
-            });
+            if (newDesigns.length > 0) {
+                this.setState({
+                    keyword,
+                    offset: offset + this.props.limit,
+                    designs: this.state.designs.concat(newDesigns),
+                    votingState: 'IN_PROGRESS',
+                    statistics: newKeywordStatistics,
+                });
+            } 
         });
     };
 
